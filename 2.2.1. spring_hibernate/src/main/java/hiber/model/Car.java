@@ -9,9 +9,9 @@ public class Car {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "model")
+    @Column(name = "model", nullable = false)
     private String model;
-    @Column(name = "series")
+    @Column(name = "series", nullable = false)
     private int series;
 
     public Car() {
@@ -53,5 +53,25 @@ public class Car {
                ", model='" + model + '\'' +
                ", series=" + series +
                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Car car = (Car) o;
+
+        if (series != car.series) return false;
+        if (!id.equals(car.id)) return false;
+        return model.equals(car.model);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + model.hashCode();
+        result = 31 * result + series;
+        return result;
     }
 }
